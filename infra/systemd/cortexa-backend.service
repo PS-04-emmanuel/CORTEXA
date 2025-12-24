@@ -1,0 +1,18 @@
+[Unit]
+Description=CORTEXA Gunicorn+Uvicorn Daemon
+After=network.target
+
+[Service]
+User=ubuntu
+Group=www-data
+WorkingDirectory=/home/ubuntu/cortexa/backend
+Environment="PATH=/home/ubuntu/cortexa/backend/venv/bin"
+EnvironmentFile=/home/ubuntu/cortexa/backend/.env
+ExecStart=/home/ubuntu/cortexa/backend/venv/bin/gunicorn \
+    -k uvicorn.workers.UvicornWorker \
+    -w 4 \
+    -b 0.0.0.0:8000 \
+    app.main:app
+
+[Install]
+WantedBy=multi-user.target
